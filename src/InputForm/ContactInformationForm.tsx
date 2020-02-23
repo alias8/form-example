@@ -29,7 +29,7 @@ const styles = (theme: Theme) =>
   });
 
 const validationSchema = Yup.object().shape({
-  contactName: Yup.string()
+  contactOwner: Yup.string()
     .typeError("Enter a contact name")
     .required("Contact name is required"),
   honorific: Yup.string()
@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
     .matches(/\d{8,10}/),
   fax: Yup.string()
     .typeError("Enter a valid fax number")
-    .matches(/\d{8,10}/),
+    .matches(/\d{8,10}/, { excludeEmptyString: true }),
   title: Yup.string()
     .typeError("Select a title")
     .required("A title is required"),
@@ -86,11 +86,15 @@ const ContactInformationForm = (props: IProps) => {
         }}
         validationSchema={validationSchema}
         validate={values => {
-          const valid = validationSchema.isValidSync(values);
-          if (valid) {
-            formValid();
-            return {};
-          }
+          return validationSchema
+            .validate(values)
+            .then(result => {
+              formValid();
+              return result;
+            })
+            .catch(error => {
+              return error;
+            });
         }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -178,7 +182,6 @@ const ContactInformationForm = (props: IProps) => {
           <MyCheckbox name="emailOptOut" type="checkbox">
             Email opt out
           </MyCheckbox>
-          <button type="submit">Submit</button>
         </Form>
       </Formik>
     </>

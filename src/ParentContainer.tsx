@@ -16,6 +16,7 @@ import Container from "@material-ui/core/Container";
 import ContactInformationForm from "./InputForm/ContactInformationForm";
 import logo from "./hero.png";
 import { BLUE, ORANGE } from "./utils/constants";
+import AddressInformationForm from "./InputForm/AddressInformation";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -131,6 +132,15 @@ export function ParentContainer() {
                 });
               }}
             />
+            {validObject.contact && (
+              <AddressInformationForm
+                formValid={() => {
+                  setValidObject(prevState => {
+                    return { ...prevState, contact: true };
+                  });
+                }}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
             <Card>

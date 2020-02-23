@@ -17,6 +17,7 @@ import ContactInformationForm from "./InputForm/ContactInformationForm";
 import logo from "./hero.png";
 import { BLUE, ORANGE } from "./utils/constants";
 import AddressInformationForm from "./InputForm/AddressInformation";
+import DescriptionInformationForm from "./InputForm/DescriptionInformation";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -80,7 +81,9 @@ const useStyles = makeStyles(theme => ({
 
 export function ParentContainer() {
   const [validObject, setValidObject] = useState({
-    contact: false
+    contact: false,
+    address: false,
+    description: false
   });
   const classes = useStyles();
 
@@ -136,7 +139,16 @@ export function ParentContainer() {
               <AddressInformationForm
                 formValid={() => {
                   setValidObject(prevState => {
-                    return { ...prevState, contact: true };
+                    return { ...prevState, address: true };
+                  });
+                }}
+              />
+            )}
+            {validObject.contact && validObject.address && (
+              <DescriptionInformationForm
+                formValid={() => {
+                  setValidObject(prevState => {
+                    return { ...prevState, description: true };
                   });
                 }}
               />

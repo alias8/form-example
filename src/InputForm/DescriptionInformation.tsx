@@ -29,34 +29,20 @@ const styles = (theme: Theme) =>
   });
 
 const validationSchema = Yup.object().shape({
-  street: Yup.string()
-    .typeError("Enter street number and name")
-    .required("Street number and name is required"),
-  city: Yup.string()
-    .typeError("Enter city")
-    .required("City is required"),
-  state: Yup.string()
-    .typeError("Enter a state")
-    .required("State is required"),
-  postcode: Yup.string()
-    .typeError("Enter a postcode")
-    .required("Postcode is required")
+  street: Yup.string().typeError("Enter a description")
 });
 
 interface IProps extends WithStyles<typeof styles> {
   formValid: () => void;
 }
 
-const AddressInformationForm = (props: IProps) => {
+const DescriptionInformationForm = (props: IProps) => {
   const { classes, formValid } = props;
   return (
     <>
       <Formik
         initialValues={{
-          street: "",
-          city: "",
-          state: "",
-          postcode: ""
+          description: ""
         }}
         validationSchema={validationSchema}
         validate={values => {
@@ -78,32 +64,12 @@ const AddressInformationForm = (props: IProps) => {
         }}
       >
         <Form>
-          <h2 className={classes.heading}>Address Information</h2>
+          <h2 className={classes.heading}>Description Information</h2>
           <Grid container spacing={5} alignItems="flex-end">
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <MyTextInput
-                label="Street No. & Street"
-                name="street"
-                type="text"
-                placeholder=""
-              />
-              <MyTextInput
-                label="State"
-                name="state"
-                type="text"
-                placeholder=""
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <MyTextInput
-                label="City"
-                name="city"
-                type="text"
-                placeholder=""
-              />
-              <MyTextInput
-                label="Postcode"
-                name="postcode"
+                label="Description"
+                name="description"
                 type="text"
                 placeholder=""
               />
@@ -115,4 +81,4 @@ const AddressInformationForm = (props: IProps) => {
   );
 };
 
-export default withStyles(styles)(AddressInformationForm);
+export default withStyles(styles)(DescriptionInformationForm);

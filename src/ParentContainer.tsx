@@ -16,7 +16,6 @@ import Container from "@material-ui/core/Container";
 import InputForm from "./InputForm";
 import logo from "./hero.png";
 import { BLUE, ORANGE } from "./utils/constants";
-import classnames from "classnames";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -122,11 +121,7 @@ export function ParentContainer() {
       <Container maxWidth="xl" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           <Grid item xs={6}>
-            <Card>
-              <CardContent>
-                <InputForm />
-              </CardContent>
-            </Card>
+            <InputForm />
           </Grid>
           <Grid item xs={6}>
             <Card>

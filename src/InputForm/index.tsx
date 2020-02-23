@@ -1,57 +1,140 @@
 import React, { Component } from "react";
-import { Formik } from "formik";
-import withStyles from "@material-ui/core/styles/withStyles";
-import * as yup from "yup";
-import Paper from "@material-ui/core/Paper";
-import {Form} from "./form";
-import {createStyles, Theme} from "@material-ui/core";
+import { Formik, Form, Field, ErrorMessage, useFormik, useField } from "formik";
+import * as Yup from "yup";
+import MyTextInput from "./MyTextInput";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Container from "@material-ui/core/Container";
+import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core";
+import { ORANGE } from "../utils/constants";
+import MyCheckbox from "./MyCheckbox";
 
-const styles = (theme: Theme) => createStyles({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: `${theme.spacing(5)}px ${theme.spacing(5)}px ${theme
-            .spacing(5)}px`
+const styles = (theme: Theme) =>
+  createStyles({
+    heading: {
+      color: ORANGE
     },
-    container: {
-        maxWidth: "200px"
+    firstName: {
+      flexBasis: "80%"
+    },
+    honorific: {
+      flexBasis: "20%"
+    },
+    firstNameContainer: {
+      display: "flex",
+      alignItems: "center"
     }
+  });
+
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .typeError("Enter a name")
+    .required("Name is required"),
+  lastName: Yup.string()
+    .typeError("Enter a name")
+    .required("Name is required")
 });
 
-const validationSchema = yup.object().shape({
-    name: yup.string()
-        .typeError("Enter a name")
-        .required("Name is required"),
-    email: yup.string()
-        .email("Enter a valid email")
-        .required("Email is required"),
-});
+interface IProps extends WithStyles<typeof styles> {}
 
-class InputForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    render() {
-        const classes = this.props;
-        const values = { name: "", email: ""};
-        return (
-            <Formik
-                render={props => <Form {...props} />}
-                initialValues={values}
-                validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 1000);
-                }}
-            />
-        );
-    }
-}
+const InputForm = (props: IProps) => {
+  const { classes } = props;
+  return (
+    <>
+      <Formik
+        initialValues={{
+          contactOwner: "",
+          honorific: "",
+          firstName: "",
+          lastName: "",
+          accountName: "",
+          companyName: "",
+          phone: "",
+          fax: "",
+          title: "",
+          email: ""
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          }, 400);
+        }}
+      >
+        <Form>
+          <h2 className={classes.heading}>Contact information</h2>
+          <Grid container spacing={5} alignItems="flex-end">
+            <Grid item xs={6}>
+              <MyTextInput
+                label="Contact Owner"
+                name="contactOwner"
+                type="text"
+                placeholder=""
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={5} alignItems="flex-end">
+            <Grid item xs={6}>
+              <MyTextInput
+                label="First Name"
+                name="firstName"
+                type="text"
+                placeholder=""
+              />
+              <MyTextInput
+                label="Account Name"
+                name="accountName"
+                type="text"
+                placeholder=""
+              />
+              <MyTextInput
+                label="Phone"
+                name="phone"
+                type="text"
+                placeholder=""
+              />
+              <MyTextInput
+                label="Title"
+                name="title"
+                type="text"
+                placeholder=""
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <MyTextInput
+                label="Last Name"
+                name="lastName"
+                type="text"
+                placeholder=""
+              />
+              <MyTextInput
+                label="Company Name"
+                name="companyName"
+                type="text"
+                placeholder=""
+              />
+              <MyTextInput
+                label="Fax (optional)"
+                name="fax"
+                type="text"
+                placeholder=""
+              />
+              <MyTextInput
+                label="Email"
+                name="email"
+                type="email"
+                placeholder=""
+              />
+            </Grid>
+          </Grid>
+          <MyCheckbox name="acceptedTerms">Email opt out</MyCheckbox>
+          <button type="submit">Submit</button>
+        </Form>
+      </Formik>
+    </>
+  );
+};
 
 export default withStyles(styles)(InputForm);

@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import InputForm from "./InputForm";
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -65,7 +66,6 @@ export function ParentContainer() {
     return (
         <>
             <CssBaseline />
-
             <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
@@ -73,20 +73,20 @@ export function ParentContainer() {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            
+
             <Container maxWidth="xl" component="main">
                 <Grid container spacing={5} alignItems="flex-end">
                     <Grid item xs={6}>
                         <Card>
                             <CardContent>
-                                something1
+                                <InputForm/>
                             </CardContent>
                         </Card>
                     </Grid>
                     <Grid item xs={6}>
                         <Card>
                             <CardContent>
-                                something2
+                                live data
                             </CardContent>
                         </Card>
                     </Grid>

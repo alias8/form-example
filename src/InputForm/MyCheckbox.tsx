@@ -20,11 +20,11 @@ const MyCheckbox = ({ children, ...props }: IProps) => {
   // since React treats radios and checkboxes differently
   // than inputs/select/textarea.
   // @ts-ignore
-  const [field, meta] = useField({ ...props, type: "checkbox" });
+  const [field, meta] = useField({ ...props });
   return (
     <>
       <label className="checkbox">
-        <input type="checkbox" {...field} {...props} />
+        <input {...field} {...props} />
         {children}
       </label>
       {meta.touched && meta.error ? (

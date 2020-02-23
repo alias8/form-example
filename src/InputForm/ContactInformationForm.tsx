@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Formik, Form, Field, ErrorMessage, useFormik, useField } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "./MyTextInput";
@@ -9,6 +9,7 @@ import Container from "@material-ui/core/Container";
 import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core";
 import { ORANGE } from "../utils/constants";
 import MyCheckbox from "./MyCheckbox";
+import { MySelect } from "./MySelectInput";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -16,10 +17,10 @@ const styles = (theme: Theme) =>
       color: ORANGE
     },
     firstName: {
-      flexBasis: "80%"
+      flexBasis: "70%"
     },
     honorific: {
-      flexBasis: "20%"
+      flexBasis: "30%"
     },
     firstNameContainer: {
       display: "flex",
@@ -28,18 +29,45 @@ const styles = (theme: Theme) =>
   });
 
 const validationSchema = Yup.object().shape({
+  contactName: Yup.string()
+    .typeError("Enter a contact name")
+    .required("Contact name is required"),
+  honorific: Yup.string()
+    .typeError("Select an honorific")
+    .required("An honorific is required"),
   firstName: Yup.string()
-    .typeError("Enter a name")
-    .required("Name is required"),
+    .typeError("Enter a first name")
+    .required("First name is required"),
   lastName: Yup.string()
-    .typeError("Enter a name")
-    .required("Name is required")
+    .typeError("Enter a last name")
+    .required("Last name is required"),
+  accountName: Yup.string()
+    .typeError("Enter an account name")
+    .required("Account name is required"),
+  companyName: Yup.string(),
+  phone: Yup.string()
+    .typeError("Enter a phone number")
+    .required("Phone number is required")
+    .matches(/\d{8,10}/),
+  fax: Yup.string()
+    .typeError("Enter a valid fax number")
+    .matches(/\d{8,10}/),
+  title: Yup.string()
+    .typeError("Select a title")
+    .required("A title is required"),
+  email: Yup.string()
+    .typeError("Enter a valid email")
+    .required("Email is required")
+    .email(),
+  emailOptOut: Yup.boolean().typeError("Select a valid emailOptOut option")
 });
 
-interface IProps extends WithStyles<typeof styles> {}
+interface IProps extends WithStyles<typeof styles> {
+  formValid: () => void;
+}
 
-const InputForm = (props: IProps) => {
-  const { classes } = props;
+const ContactInformationForm = (props: IProps) => {
+  const { classes, formValid } = props;
   return (
     <>
       <Formik
@@ -53,9 +81,17 @@ const InputForm = (props: IProps) => {
           phone: "",
           fax: "",
           title: "",
-          email: ""
+          email: "",
+          emailOptOut: false
         }}
         validationSchema={validationSchema}
+        validate={values => {
+          const valid = validationSchema.isValidSync(values);
+          if (valid) {
+            formValid();
+            return {};
+          }
+        }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
@@ -77,12 +113,22 @@ const InputForm = (props: IProps) => {
           </Grid>
           <Grid container spacing={5} alignItems="flex-end">
             <Grid item xs={6}>
-              <MyTextInput
-                label="First Name"
-                name="firstName"
-                type="text"
-                placeholder=""
-              />
+              <div className={classes.firstNameContainer}>
+                <MySelect
+                  styles={classes.honorific}
+                  label="First Name"
+                  name="honorific"
+                  type="text"
+                  placeholder=""
+                />
+                <MyTextInput
+                  styles={classes.firstName}
+                  label=""
+                  name="firstName"
+                  type="text"
+                  placeholder=""
+                />
+              </div>
               <MyTextInput
                 label="Account Name"
                 name="accountName"
@@ -129,7 +175,9 @@ const InputForm = (props: IProps) => {
               />
             </Grid>
           </Grid>
-          <MyCheckbox name="acceptedTerms">Email opt out</MyCheckbox>
+          <MyCheckbox name="emailOptOut" type="checkbox">
+            Email opt out
+          </MyCheckbox>
           <button type="submit">Submit</button>
         </Form>
       </Formik>
@@ -137,4 +185,4 @@ const InputForm = (props: IProps) => {
   );
 };
 
-export default withStyles(styles)(InputForm);
+export default withStyles(styles)(ContactInformationForm);

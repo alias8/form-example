@@ -20,16 +20,22 @@ const styles = (theme: Theme) =>
     }
   });
 
-type IProps = WithStyles<typeof styles> & HTMLProps<HTMLInputElement>;
+interface IOwnProps {
+  styles?: {};
+}
+
+type IProps = IOwnProps &
+  WithStyles<typeof styles> &
+  HTMLProps<HTMLInputElement>;
 
 const MyTextInput = ({ label, ...props }: IProps) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
   // which we can spread on <input> and also replace ErrorMessage entirely.
-  const { classes } = props;
+  const { classes, styles } = props;
   // @ts-ignore
   const [field, meta] = useField(props);
   return (
-    <div className={clsx(classes.container)}>
+    <div className={clsx(classes.container, styles)}>
       <label htmlFor={props.id || props.name}>{label}</label>
       <TextField
         {...field}

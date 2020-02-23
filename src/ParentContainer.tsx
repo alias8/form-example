@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import InputForm from "./InputForm";
+import ContactInformationForm from "./InputForm/ContactInformationForm";
 import logo from "./hero.png";
 import { BLUE, ORANGE } from "./utils/constants";
 
@@ -78,6 +78,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export function ParentContainer() {
+  const [validObject, setValidObject] = useState({
+    contact: false
+  });
   const classes = useStyles();
 
   return (
@@ -121,7 +124,13 @@ export function ParentContainer() {
       <Container maxWidth="xl" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           <Grid item xs={6}>
-            <InputForm />
+            <ContactInformationForm
+              formValid={() => {
+                setValidObject(prevState => {
+                  return { ...prevState, contact: true };
+                });
+              }}
+            />
           </Grid>
           <Grid item xs={6}>
             <Card>

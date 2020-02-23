@@ -4,11 +4,12 @@ import Select from "@material-ui/core/Select";
 import clsx from "clsx";
 import { MenuItem } from "@material-ui/core";
 
-export const MySelect = ({ label, extraStyles = {}, ...props }) => {
+export const MySelect = ({ label, styles = {}, ...props }) => {
   // @ts-ignore
   const [field, meta] = useField(props);
   return (
-    <div className={clsx(extraStyles)}>
+    <div className={clsx(styles)}>
+      <label htmlFor={props.id || props.name}>{label}</label>
       <Select {...field} {...props} variant="outlined">
         <MenuItem value={"Mr"}>Mr</MenuItem>
         <MenuItem value={"Mrs"}>Mrs</MenuItem>

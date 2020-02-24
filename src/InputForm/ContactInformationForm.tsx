@@ -64,10 +64,25 @@ const validationSchema = Yup.object().shape({
 
 interface IProps extends WithStyles<typeof styles> {
   formValid: () => void;
+  updateLive: ({}: IContactInfo) => void;
+}
+
+export interface IContactInfo {
+  contactOwner: string;
+  honorific: string;
+  firstName: string;
+  lastName: string;
+  accountName: string;
+  companyName: string;
+  phone: string;
+  fax: string;
+  title: string;
+  email: string;
+  emailOptOut: boolean;
 }
 
 const ContactInformationForm = (props: IProps) => {
-  const { classes, formValid } = props;
+  const { classes, formValid, updateLive } = props;
   return (
     <>
       <Formik
@@ -90,9 +105,11 @@ const ContactInformationForm = (props: IProps) => {
             .validate(values)
             .then(result => {
               formValid();
+              updateLive(result);
               return result;
             })
             .catch(error => {
+              updateLive(error.value);
               return error;
             });
         }}

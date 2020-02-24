@@ -18,6 +18,17 @@ import logo from "./hero.png";
 import { BLUE, ORANGE } from "./utils/constants";
 import AddressInformationForm from "./InputForm/AddressInformation";
 import DescriptionInformationForm from "./InputForm/DescriptionInformation";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -76,8 +87,21 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     objectFit: "contain"
+  },
+  tableLabel: {
+    width: 165
   }
 }));
+
+interface ILiveInfo {
+  contactOwner: string;
+  accountName: string;
+  companyName: string;
+  phone: string;
+  email: string;
+  address: string;
+  description: string;
+}
 
 export function ParentContainer() {
   const [validObject, setValidObject] = useState({
@@ -85,7 +109,49 @@ export function ParentContainer() {
     address: false,
     description: false
   });
+
+  const [liveInfo, setLiveInfo] = useState({
+    contactOwner: "",
+    accountName: "",
+    companyName: "",
+    phone: "",
+    email: "",
+    address: "",
+    description: ""
+  });
+
   const classes = useStyles();
+
+  const rows = [
+    {
+      label: "Contact Owner",
+      value: liveInfo.contactOwner
+    },
+    {
+      label: "Account Name",
+      value: liveInfo.accountName
+    },
+    {
+      label: "Company Name",
+      value: liveInfo.companyName
+    },
+    {
+      label: "Phone",
+      value: liveInfo.phone
+    },
+    {
+      label: "Email",
+      value: liveInfo.email
+    },
+    {
+      label: "Address",
+      value: liveInfo.address
+    },
+    {
+      label: "Description",
+      value: liveInfo.description
+    }
+  ];
 
   return (
     <>
@@ -134,6 +200,18 @@ export function ParentContainer() {
                   return { ...prevState, contact: true };
                 });
               }}
+              updateLive={values => {
+                setLiveInfo(prevState => {
+                  return {
+                    ...prevState,
+                    contactOwner: values.contactOwner,
+                    accountName: values.accountName,
+                    companyName: values.companyName,
+                    phone: values.phone,
+                    email: values.email
+                  };
+                });
+              }}
             />
             {validObject.contact && (
               <AddressInformationForm
@@ -156,7 +234,20 @@ export function ParentContainer() {
           </Grid>
           <Grid item xs={6}>
             <Card>
-              <CardContent>live data</CardContent>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableBody>
+                    {rows.map(row => (
+                      <TableRow key={row.label}>
+                        <TableCell align="right" className={classes.tableLabel}>
+                          {row.label}
+                        </TableCell>
+                        <TableCell align="left">{row.value}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Card>
           </Grid>
         </Grid>

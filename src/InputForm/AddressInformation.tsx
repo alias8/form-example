@@ -41,6 +41,7 @@ const validationSchema = Yup.object().shape({
   postcode: Yup.string()
     .typeError("Enter a postcode")
     .required("Postcode is required")
+    .matches(/\d{4}/, { excludeEmptyString: true })
 });
 
 interface IProps extends WithStyles<typeof styles> {

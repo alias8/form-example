@@ -10,6 +10,7 @@ import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core";
 import { ORANGE } from "../utils/constants";
 import MyCheckbox from "./MyCheckbox";
 import { MySelect } from "./MySelectInput";
+import { IContactInfo } from "./ContactInformationForm";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -46,10 +47,11 @@ const validationSchema = Yup.object().shape({
 
 interface IProps extends WithStyles<typeof styles> {
   formValid: () => void;
+  updateLive: ({}: { address: string }) => void;
 }
 
 const AddressInformationForm = (props: IProps) => {
-  const { classes, formValid } = props;
+  const { classes, formValid, updateLive } = props;
   return (
     <>
       <Formik
@@ -65,9 +67,15 @@ const AddressInformationForm = (props: IProps) => {
             .validate(values)
             .then(result => {
               formValid();
+              updateLive({
+                address: `${result.street} ${result.city} ${result.state} ${result.postcode}`
+              });
               return result;
             })
             .catch(error => {
+              updateLive({
+                address: `${error.value.street} ${error.value.city} ${error.value.state} ${error.value.postcode}`
+              });
               return error;
             });
         }}

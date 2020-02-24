@@ -220,6 +220,14 @@ export function ParentContainer() {
                     return { ...prevState, address: true };
                   });
                 }}
+                updateLive={values => {
+                  setLiveInfo(prevState => {
+                    return {
+                      ...prevState,
+                      address: values.address
+                    };
+                  });
+                }}
               />
             )}
             {validObject.contact && validObject.address && (
@@ -227,6 +235,14 @@ export function ParentContainer() {
                 formValid={() => {
                   setValidObject(prevState => {
                     return { ...prevState, description: true };
+                  });
+                }}
+                updateLive={values => {
+                  setLiveInfo(prevState => {
+                    return {
+                      ...prevState,
+                      description: values.description
+                    };
                   });
                 }}
               />

@@ -29,15 +29,16 @@ const styles = (theme: Theme) =>
   });
 
 const validationSchema = Yup.object().shape({
-  street: Yup.string().typeError("Enter a description")
+  description: Yup.string().typeError("Enter a description")
 });
 
 interface IProps extends WithStyles<typeof styles> {
   formValid: () => void;
+  updateLive: ({}: { description: string }) => void;
 }
 
 const DescriptionInformationForm = (props: IProps) => {
-  const { classes, formValid } = props;
+  const { classes, formValid, updateLive } = props;
   return (
     <>
       <Formik
@@ -50,9 +51,15 @@ const DescriptionInformationForm = (props: IProps) => {
             .validate(values)
             .then(result => {
               formValid();
+              updateLive({
+                description: result.description
+              });
               return result;
             })
             .catch(error => {
+              updateLive({
+                description: error.value.description
+              });
               return error;
             });
         }}

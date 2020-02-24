@@ -42,3 +42,11 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+# Things to change:
+1. CSS is not perfect
+2. Write basic unit tests
+3. Fix console errors.
+4. Fix image upload field
+5. Submit modal not implemented

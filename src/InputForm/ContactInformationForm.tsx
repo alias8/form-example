@@ -113,11 +113,8 @@ const ContactInformationForm = (props: IProps) => {
               return error;
             });
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+        onSubmit={(values, { resetForm }) => {
+          // resetForm();
         }}
       >
         <Form>

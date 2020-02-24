@@ -79,12 +79,7 @@ const AddressInformationForm = (props: IProps) => {
               return error;
             });
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
+        onSubmit={() => {}}
       >
         <Form>
           <h2 className={classes.heading}>Address Information</h2>

@@ -93,16 +93,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-interface ILiveInfo {
-  contactOwner: string;
-  accountName: string;
-  companyName: string;
-  phone: string;
-  email: string;
-  address: string;
-  description: string;
-}
-
 export function ParentContainer() {
   const [validObject, setValidObject] = useState({
     contact: false,
@@ -110,46 +100,62 @@ export function ParentContainer() {
     description: false
   });
 
-  const [liveInfo, setLiveInfo] = useState({
+  const [allInfo, setAllInfo] = useState({
     contactOwner: "",
+    honorific: "",
+    firstName: "",
+    lastName: "",
     accountName: "",
     companyName: "",
     phone: "",
+    fax: "",
+    title: "",
     email: "",
+    emailOptOut: false,
     address: "",
     description: ""
   });
+
+  const onCancel = () => {
+    // todo: how to reset formik?
+  };
+
+  const onSubmit = () => {
+    if (validObject.contact && validObject.address && validObject.description) {
+      console.log(allInfo);
+    }
+  };
 
   const classes = useStyles();
 
   const rows = [
     {
       label: "Contact Owner",
-      value: liveInfo.contactOwner
+      value: allInfo.contactOwner
     },
     {
       label: "Account Name",
-      value: liveInfo.accountName
+      value: allInfo.accountName
     },
     {
       label: "Company Name",
-      value: liveInfo.companyName
+      value: allInfo.companyName
     },
     {
       label: "Phone",
-      value: liveInfo.phone
+      value: allInfo.phone
     },
     {
       label: "Email",
-      value: liveInfo.email
+      value: allInfo.email
     },
     {
       label: "Address",
-      value: liveInfo.address
+      value: allInfo.address
     },
     {
       label: "Description",
-      value: liveInfo.description
+      value: allInfo.description
     }
   ];
 
@@ -177,6 +183,7 @@ export function ParentContainer() {
             color="primary"
             variant="outlined"
             className={classes.cancelButton}
+            onClick={onCancel}
           >
             Cancel
           </Button>
@@ -185,6 +192,7 @@ export function ParentContainer() {
             color="primary"
             variant="outlined"
             className={classes.saveButton}
+            onClick={onSubmit}
           >
             Save
           </Button>
@@ -201,14 +209,10 @@ export function ParentContainer() {
                 });
               }}
               updateLive={values => {
-                setLiveInfo(prevState => {
+                setAllInfo(prevState => {
                   return {
                     ...prevState,
-                    contactOwner: values.contactOwner,
-                    accountName: values.accountName,
-                    companyName: values.companyName,
-                    phone: values.phone,
-                    email: values.email
+                    ...values
                   };
                 });
               }}
@@ -221,10 +225,10 @@ export function ParentContainer() {
                   });
                 }}
                 updateLive={values => {
-                  setLiveInfo(prevState => {
+                  setAllInfo(prevState => {
                     return {
                       ...prevState,
-                      address: values.address
+                      ...values
                     };
                   });
                 }}
@@ -238,10 +242,10 @@ export function ParentContainer() {
                   });
                 }}
                 updateLive={values => {
-                  setLiveInfo(prevState => {
+                  setAllInfo(prevState => {
                     return {
                       ...prevState,
-                      description: values.description
+                      ...values
                     };
                   });
                 }}
